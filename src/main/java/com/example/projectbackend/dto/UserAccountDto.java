@@ -1,12 +1,19 @@
 package com.example.projectbackend.dto;
+import com.example.projectbackend.model.Authority;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.Set;
 
 public class UserAccountDto {
 
     public Long id;
-
+    @NotBlank
     public String username;
-
+    @NotBlank
+    @Size(min=4, max=12)
     public String password;
     public String firstname;
     public String lastname;
@@ -15,13 +22,16 @@ public class UserAccountDto {
     public Integer zipcode;
     public String city;
     public String country;
+    @NotBlank
+    @Email
     public String email;
 
+    @JsonSerialize
+    public Set<Authority> authorities;
 
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -29,7 +39,6 @@ public class UserAccountDto {
     public String getUsername() {
         return username;
     }
-
     public void setUsername(String username) {
         this.username = username;
     }
@@ -37,7 +46,6 @@ public class UserAccountDto {
     public String getPassword() {
         return password;
     }
-
     public void setPassword(String password) {
         this.password = password;
     }
@@ -45,7 +53,6 @@ public class UserAccountDto {
     public String getFirstname() {
         return firstname;
     }
-
     public void setFirstname(String firstname) {
         this.firstname = firstname;
     }
@@ -53,7 +60,6 @@ public class UserAccountDto {
     public String getLastname() {
         return lastname;
     }
-
     public void setLastname(String lastname) {
         this.lastname = lastname;
     }
@@ -61,7 +67,6 @@ public class UserAccountDto {
     public LocalDate getBirthdate() {
         return birthdate;
     }
-
     public void setBirthdate(LocalDate birthdate) {
         this.birthdate = birthdate;
     }
@@ -69,7 +74,6 @@ public class UserAccountDto {
     public String getAddress() {
         return address;
     }
-
     public void setAddress(String address) {
         this.address = address;
     }
@@ -77,7 +81,6 @@ public class UserAccountDto {
     public Integer getZipcode() {
         return zipcode;
     }
-
     public void setZipcode(Integer zipcode) {
         this.zipcode = zipcode;
     }
@@ -85,7 +88,6 @@ public class UserAccountDto {
     public String getCity() {
         return city;
     }
-
     public void setCity(String city) {
         this.city = city;
     }
@@ -93,7 +95,6 @@ public class UserAccountDto {
     public String getCountry() {
         return country;
     }
-
     public void setCountry(String country) {
         this.country = country;
     }
@@ -101,9 +102,15 @@ public class UserAccountDto {
     public String getEmail() {
         return email;
     }
-
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Set<Authority> getAuthorities() {
+        return authorities;
+    }
+    public void setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
     }
 
 }

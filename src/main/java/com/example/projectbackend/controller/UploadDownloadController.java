@@ -20,15 +20,12 @@ import java.util.zip.ZipOutputStream;
 @CrossOrigin
 @RestController
 public class UploadDownloadController {
-
     private final FileStorageService fileStorageService;
     private final FileStorageDatabaseService fileStorageDatabaseService;
-
     public UploadDownloadController(FileStorageService fileStorageService, FileStorageDatabaseService fileStorageDatabaseService) {
         this.fileStorageService = fileStorageService;
         this.fileStorageDatabaseService = fileStorageDatabaseService;
     }
-
 
     @PostMapping("/upload")
 //    @PostMapping("/accounts/{id}/photo")
@@ -41,25 +38,22 @@ public class UploadDownloadController {
         return new FileUploadDownload(fileName, contentType, url );
     }
 
-
     @GetMapping("/download/{fileName}")
+        //    @GetMapping("/download/image0.jpeg")
     ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
 
         Resource resource = fileStorageService.downloadFile(fileName);
         String mimeType;
-
         try{
             mimeType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
         } catch (IOException e) {
             mimeType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
         }
-
-//        for download attachment use next line
+//        for download attachment
 //        return ResponseEntity.ok().contentType(contentType).header(HttpHeaders.CONTENT_DISPOSITION, "attachment;fileName=" + resource.getFilename()).body(resource);
 //        for showing image in browser
         return ResponseEntity.ok().contentType(MediaType.parseMediaType(mimeType)).header(HttpHeaders.CONTENT_DISPOSITION, "inline;fileName=" + resource.getFilename()).body(resource);
     }
-
 
     @PostMapping("/multiple/upload")
     List<FileUploadDownload> multipleUpload(@RequestParam("files") MultipartFile[] files) {
@@ -80,13 +74,11 @@ public class UploadDownloadController {
         return uploadResponseList;
     }
 
-
     @GetMapping("/download/allNames")
     List<String> downLoadMultipleFile() {
 
         return fileStorageService.downLoad();
     }
-
 
     @GetMapping("zipDownload")
     public void zipDownload(@RequestParam("fileName") String[] files, HttpServletResponse response) throws IOException {
@@ -101,7 +93,6 @@ public class UploadDownloadController {
             });
             zos.finish();
         }
-
         response.setStatus(200);
         response.addHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;fileName=zipfile");
     }

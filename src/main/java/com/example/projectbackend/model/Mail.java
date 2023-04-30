@@ -17,10 +17,8 @@ public class Mail {
     private String subject;
     private String attachment;
 
-
     @OneToOne
     private Order order;
-
 
     public Mail(String recipient, String message, String subject) {
         this.recipient = recipient;
@@ -28,11 +26,9 @@ public class Mail {
         this.subject = subject;
     }
 
-
     public String getRecipient() {
         return recipient;
     }
-
     public void setRecipient(String recipient) {
         this.recipient = recipient;
     }
@@ -40,7 +36,6 @@ public class Mail {
     public String getMessage() {
         return message;
     }
-
     public void setMessage(String message) {
         this.message = message;
     }
@@ -48,7 +43,6 @@ public class Mail {
     public String getSubject() {
         return subject;
     }
-
     public void setSubject(String subject) {
         this.subject = subject;
     }
@@ -56,7 +50,6 @@ public class Mail {
     public String getAttachment() {
         return attachment;
     }
-
     public void setAttachment(String attachment) {
         this.attachment = attachment;
     }

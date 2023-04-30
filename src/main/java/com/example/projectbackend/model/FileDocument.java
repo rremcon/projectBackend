@@ -14,11 +14,9 @@ public class FileDocument {
     @Lob
     private byte[] docFile;
 
-
     public String getFileName() {
         return fileName;
     }
-
     public byte[] getDocFile() {
         return docFile;
     }
@@ -26,7 +24,6 @@ public class FileDocument {
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
-
     public void setDocFile(byte[] docFile) {
         this.docFile = docFile;
     }

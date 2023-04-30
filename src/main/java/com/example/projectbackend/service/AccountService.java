@@ -4,13 +4,8 @@ import com.example.projectbackend.exceptions.UserNotFoundException;
 import com.example.projectbackend.model.Account;
 import com.example.projectbackend.model.Authority;
 import com.example.projectbackend.repository.AccountRepository;
-//import com.example.projectbackend.repository.FileRepository;
-import com.example.projectbackend.repository.DocFileRepository;
-import com.example.projectbackend.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
-//import java.io.File;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Set;
@@ -18,19 +13,9 @@ import java.util.Set;
 @Service
 public class AccountService {
     private final AccountRepository accountRepository;
-
-//    private final UserRepository userRepository;
-
-//    private final DocFileRepository docFileRepository;
-
     public AccountService(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
     }
-
-//    public AccountService(AccountRepository accountRepository, DocFileRepository docFileRepository) {
-//        this.accountRepository = accountRepository;
-//        this.docFileRepository = docFileRepository;
-//    }
 
     public Long createAccount(AccountDto accountDto)
     {
@@ -50,9 +35,9 @@ public class AccountService {
         return savedAccount.getId();
     }
 
-    public AccountDto getAccount(Long id) {
-        AccountDto accountDto = new AccountDto();
-        Optional<Account> account = accountRepository.findById(id);
+    public AccountDto getAccount(String username) {
+        AccountDto accountDto;
+        Optional <Account> account = accountRepository.findByUsername(username);
         if (account.isPresent()){
             accountDto = fromAccount(account.get());
         }else {
@@ -84,7 +69,6 @@ public class AccountService {
         return accountDtoList;
     }
 
-
     public void updateAccount(Long id, AccountDto newAccount) {
         if (!accountRepository.existsById(id)) throw new UserNotFoundException();
         Account account = accountRepository.findById(id).get();
@@ -111,8 +95,7 @@ public class AccountService {
     public Set<Authority> getAccountAuthorities(Long id) {
         if (!accountRepository.existsById(id)) throw new UserNotFoundException();
         Account account = accountRepository.findById(id).get();
-        AccountDto accountDto = fromAccount(account);
-        return accountDto.getAuthorities();
+        return account.getUser().getAuthorities();
     }
 
     public static AccountDto fromAccount(Account account){
@@ -130,6 +113,7 @@ public class AccountService {
         accountDto.username = account.getUsername();
         accountDto.password = account.getPassword();
 
+        accountDto.userDto = UserService.fromUser(account.getUser());
         return accountDto;
     }
 
@@ -150,46 +134,5 @@ public class AccountService {
 
         return account;
     }
-
-
-
-    ////////////////
-//    public void assignPhotoToAccount(String fileName, Long id) {
-//        Optional<Account> optionalAccount = accountRepository.findById(id);
-//
-//        Optional<File> file = docFileRepository.findByFileName(fileName);
-//
-//        if (optionalAccount.isPresent() && file.isPresent()) {
-//            File photo = file.get();
-//
-//            Account account = optionalAccount.get();
-//
-//            account.setFile(photo);
-//
-//            accountRepository.save(account);
-//        }
-//    }
-    ////////////////////
-
-
-
-/////////////////
-//    public void addAccountAuthority(Long id, String authority) {
-//
-//        if (!accountRepository.existsById(id)) throw new UserNotFoundException();
-//        Account account = accountRepository.findById(id).get();
-//        account.addAuthority(new Authority(id, authority));
-//        accountRepository.save(account);
-//    }
-//
-//
-//    public void deleteAccountAuthority(Long id, String authority) {
-//        if (!accountRepository.existsById(id)) throw new UserNotFoundException();
-//        Account account = accountRepository.findById(id).get();
-//        Authority authorityToRemove = account.getAuthorities().stream().filter((a) -> a.getAuthority().equalsIgnoreCase(authority)).findAny().get();
-//        account.removeAuthority(authorityToRemove);
-//        accountRepository.save(account);
-//    }
-///////////////////
 
 }

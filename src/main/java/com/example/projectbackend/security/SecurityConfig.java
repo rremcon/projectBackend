@@ -26,12 +26,10 @@ public class SecurityConfig  {
         this.jwtRequestFilter = jwtRequestFilter;
     }
 
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 
     @Bean
     public AuthenticationManager authManager(HttpSecurity http, PasswordEncoder encoder, UserDetailsService myUserDetailsService) throws Exception {
@@ -42,7 +40,6 @@ public class SecurityConfig  {
                 .build();
     }
 
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -51,102 +48,46 @@ public class SecurityConfig  {
                 .cors().and()
                 .authorizeRequests()
 
+//                                .antMatchers("/**").permitAll()
+
                 //USERS
-                .antMatchers(HttpMethod.POST, "/users").permitAll()
-                .antMatchers(HttpMethod.POST, "/users/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/users").permitAll()
-
-                .antMatchers(HttpMethod.GET, "/users/{username}").permitAll()
-
-                .antMatchers(HttpMethod.GET, "/users").hasAuthority("ADMIN")
-                .antMatchers(HttpMethod.GET, "/users/**").hasAuthority("ADMIN")
-                .antMatchers(HttpMethod.PUT, "/users/**").permitAll()
-                .antMatchers(HttpMethod.PUT, "/users/**").hasAuthority("ADMIN")
-
-                .antMatchers(HttpMethod.DELETE, "/users/{id}").permitAll()
-                .antMatchers(HttpMethod.GET, "/users/{id}").permitAll()
-//                .antMatchers(HttpMethod.DELETE, "/users/{id}").hasAuthority("ADMIN")
-
+                .antMatchers(HttpMethod.POST, "/users/register").permitAll()
+                .antMatchers(HttpMethod.POST, "/login").permitAll()
 
                 //ACCOUNTS
-                .antMatchers(HttpMethod.POST, "/accounts").permitAll()
-                .antMatchers(HttpMethod.POST, "/accounts/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/accounts").permitAll()
+                .antMatchers(HttpMethod.GET, "/accounts").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.GET, "/accounts/{id}").permitAll()
+                .antMatchers(HttpMethod.DELETE, "/accounts/{id}").hasAuthority("ADMIN")
+//                .antMatchers(HttpMethod.PUT, "/accounts/{id}").hasAuthority("ADMIN")
 
-                .antMatchers(HttpMethod.GET, "/accounts/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/accounts/**").hasAuthority("ADMIN")
-                .antMatchers(HttpMethod.PUT, "/accounts/**").permitAll()
-                .antMatchers(HttpMethod.PUT, "/accounts/**").hasAuthority("ADMIN")
+                //TICKETS
+                .antMatchers(HttpMethod.POST, "/tickets/create").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, "/tickets/admin").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, "/tickets").permitAll()
+                .antMatchers(HttpMethod.GET, "/tickets/{id}").permitAll()
+                .antMatchers(HttpMethod.DELETE, "/tickets/{id}").hasAuthority("ADMIN")
+//                .antMatchers(HttpMethod.PUT, "/tickets/{id}").hasAuthority("ADMIN")
 
-                .antMatchers(HttpMethod.DELETE, "/accounts/{id}").permitAll()
-//                .antMatchers(HttpMethod.DELETE, "/accounts/{id}").hasAuthority("ADMIN")
-
-
-                //USERACCOUNTS
-                .antMatchers(HttpMethod.POST, "users/accounts").permitAll()
-                .antMatchers(HttpMethod.POST, "users/accounts/**").permitAll()
-
+                //ORDERS
+                .antMatchers(HttpMethod.GET, "/orders").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.POST, "/orders/create").permitAll()
+                .antMatchers(HttpMethod.POST, "/orders/create/{accountId}").permitAll()
+                .antMatchers(HttpMethod.DELETE, "/orders/{id}").hasAuthority("ADMIN")
+//                .antMatchers(HttpMethod.PUT, "/orders/{id}").hasAuthority("ADMIN")
 
                 //PRODUCTS
                 .antMatchers(HttpMethod.GET, "/products").permitAll()
                 .antMatchers(HttpMethod.GET, "/products/{id}").permitAll()
 
+                //UPLOAD/DOWNLOAD
+                .antMatchers(HttpMethod.POST, "/upload").permitAll()
+                .antMatchers(HttpMethod.POST, "/accounts/0/photo").permitAll()
+                .antMatchers(HttpMethod.GET, "/download/{fileName}").permitAll()
+                .antMatchers(HttpMethod.GET, "/download/image0.jpeg").permitAll()
 
-                //TICKETS
-                .antMatchers(HttpMethod.POST, "/tickets").permitAll()
-                .antMatchers(HttpMethod.POST, "/tickets/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/tickets").permitAll()
-                .antMatchers(HttpMethod.GET, "/tickets/{id}").permitAll()
-
-                .antMatchers(HttpMethod.GET, "/tickets/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/tickets").hasAuthority("ADMIN")
-                .antMatchers(HttpMethod.GET, "/tickets/**").hasAuthority("ADMIN")
-                .antMatchers(HttpMethod.PUT, "/tickets/**").permitAll()
-                .antMatchers(HttpMethod.PUT, "/tickets/**").hasAuthority("ADMIN")
-
-                .antMatchers(HttpMethod.DELETE, "/tickets/**").permitAll()
-                .antMatchers(HttpMethod.DELETE, "/tickets/{id}").permitAll()
-//                .antMatchers(HttpMethod.DELETE, "/tickets/{id}").hasAuthority("ADMIN")
-
-
-                //ORDERS
-                .antMatchers(HttpMethod.POST, "/orders").permitAll()
-                .antMatchers(HttpMethod.POST, "/orders/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/orders").permitAll()
-                .antMatchers(HttpMethod.GET, "/orders/{id}").permitAll()
-
-                .antMatchers(HttpMethod.GET, "/orders/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/orders/**").hasAuthority("ADMIN")
-                .antMatchers(HttpMethod.PUT, "/orders/**").permitAll()
-                .antMatchers(HttpMethod.PUT, "/orders/**").hasAuthority("ADMIN")
-
-                .antMatchers(HttpMethod.DELETE, "/orders/{id}").permitAll()
-//                .antMatchers(HttpMethod.DELETE, "/orders/{id}").hasAuthority("ADMIN")
-
-
-                .antMatchers(HttpMethod.POST,"/upload").permitAll()
-                .antMatchers(HttpMethod.GET,"/download/{fileName}").permitAll()
-                .antMatchers(HttpMethod.POST,"/accounts/{id}/photo").permitAll()
-
-
-//                .antMatchers("/sendMail").hasAuthority("ADMIN")
-                .antMatchers("/sendMail").permitAll()
-//                .antMatchers("/sendMailWithAttachment").hasAuthority("ADMIN")
-                .antMatchers("/sendMailWithAttachment").permitAll()
-
-                ////
-                .antMatchers("/administrator").hasAuthority("ADMIN")
-//                .antMatchers("/admin").hasAuthority("ADMIN")
-                .antMatchers("/**").hasAnyAuthority("USER", "ADMIN")
-                ///
-
-                .antMatchers(HttpMethod.POST, "/register").permitAll()
-                .antMatchers(HttpMethod.POST, "/login").permitAll()
-                .antMatchers(HttpMethod.POST, "/authenticate").permitAll()
-                .antMatchers(HttpMethod.GET,"/authenticated").authenticated()
-                .antMatchers("/authenticated").authenticated()
-                .antMatchers("/authenticate").permitAll()
+                //SENDMAIL
+                .antMatchers(HttpMethod.POST, "/sendMail").permitAll()
+                .antMatchers(HttpMethod.POST, "/sendMailWithAttachment").permitAll()
 
                 .anyRequest().permitAll()
                 .and()

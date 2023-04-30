@@ -36,7 +36,6 @@ public class FileStorageDatabaseService {
         fileDocument.setDocFile(file.getBytes());
 
         doc.save(fileDocument);
-
         return fileDocument;
     }
 
@@ -45,7 +44,7 @@ public class FileStorageDatabaseService {
         FileDocument document = doc.findByFileName(fileName);
         String mimeType = request.getServletContext().getMimeType(document.getFileName());
 
-//        for download attachment use next line
+//        for download attachment
 //        return ResponseEntity.ok().contentType(contentType).header(HttpHeaders.CONTENT_DISPOSITION, "attachment;fileName=" + resource.getFilename()).body(resource);
 //        for showing image in browser
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "inline;fileName=" + document.getFileName()).body(document.getDocFile());

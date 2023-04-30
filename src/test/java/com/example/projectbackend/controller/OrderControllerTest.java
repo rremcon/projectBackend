@@ -10,13 +10,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import static org.junit.jupiter.api.Assertions.*;
 
-
-//@WebMvcTest(OrderControllerTest.class)
 @WebMvcTest(OrderController.class)
 @AutoConfigureMockMvc(addFilters = false)
 class OrderControllerTest {
@@ -25,18 +24,17 @@ class OrderControllerTest {
 
     @MockBean
     JwtService jwtService;
-
     @MockBean
     OrderService orderService;
 
     @Test
 //    @WithMockUser(username="testuser", authorities="USER")
-    void shouldRetrieveCorrectOrder() throws Exception {
+    void ReturnCorrectOrder() throws Exception {
 
         OrderDto orderDto = new OrderDto();
         orderDto.selectedticket = "TicketExample";
-        orderDto.price = 300;
         orderDto.quantity = 2;
+        orderDto.price = 300;
 
         Mockito.when(orderService.getOrder(1L)).thenReturn(orderDto);
 
@@ -44,11 +42,10 @@ class OrderControllerTest {
                 .perform(MockMvcRequestBuilders.get("/orders/1"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.selectedticket", is("TicketExample")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.price", is(300)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.quantity", is(2)));
+                .andExpect((ResultMatcher) MockMvcResultMatchers.jsonPath("$.selectedticket", ("TicketExample")))
+                .andExpect((ResultMatcher) MockMvcResultMatchers.jsonPath("$.quantity", (2)))
+                .andExpect((ResultMatcher) MockMvcResultMatchers.jsonPath("$.price", (300)));
     }
-
 
     @Test
 //    @WithMockUser(username="testuser", authorities="USER")
@@ -60,8 +57,8 @@ class OrderControllerTest {
                 .perform(MockMvcRequestBuilders.get("/orders/1/invoice"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id", is(1)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.amount", is(300.0)));
+                .andExpect((ResultMatcher) MockMvcResultMatchers.jsonPath("$.id", (1L)))
+                .andExpect((ResultMatcher) MockMvcResultMatchers.jsonPath("$.amount", (300.0)));
     }
 
 }

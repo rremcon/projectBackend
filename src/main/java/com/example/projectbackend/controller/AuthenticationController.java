@@ -12,20 +12,17 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 
-
 @RestController
 public class AuthenticationController {
     private final AuthenticationManager authManager;
     private UserDetailsService userDetailsService;
     private final JwtService jwtService;
 
-
     public AuthenticationController(AuthenticationManager authManager, UserDetailsService userDetailsService, JwtService jwtService) {
         this.authManager = authManager;
         this.userDetailsService = userDetailsService;
         this.jwtService = jwtService;
     }
-
 
     @PostMapping("/login")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
@@ -43,7 +40,6 @@ public class AuthenticationController {
         final String jwt = jwtService.generateToken(userDetails);
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
-
 
     @GetMapping(value = "/authenticated")
     public ResponseEntity<Object> authenticated(Authentication authentication, Principal principal) {

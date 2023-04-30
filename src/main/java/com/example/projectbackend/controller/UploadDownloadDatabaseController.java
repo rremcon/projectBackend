@@ -14,9 +14,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class UploadDownloadDatabaseController {
-
     private final FileStorageDatabaseService fileStorageDatabaseService;
-
     public UploadDownloadDatabaseController(FileStorageDatabaseService fileStorageDatabaseService) {
         this.fileStorageDatabaseService = fileStorageDatabaseService;
     }
@@ -57,4 +55,5 @@ public class UploadDownloadDatabaseController {
     public Collection<FileDocument> getAllFromDB(){
         return fileStorageDatabaseService.getALlFromDB();
     }
+
 }

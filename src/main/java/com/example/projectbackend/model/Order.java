@@ -1,7 +1,6 @@
 package com.example.projectbackend.model;
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -24,16 +23,18 @@ public class Order {
     @JoinColumn(name = "ticket_id")
     private Ticket ticket;
 
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
+
     @OneToMany (mappedBy = "order")
     private List<Ticket> tickets;
 
+    @OneToMany (mappedBy = "order")
+    private List<Product> products;
 
     @OneToOne
     private Mail mail;
-
-//    public Order() {
-//        this.tickets = new ArrayList<>();
-//    }
 
     public Order() {
     }
@@ -56,7 +57,6 @@ public class Order {
     public Long getOrderid() {
         return orderid;
     }
-
     public void setOrderid(Long orderid) {
         this.orderid = orderid;
     }
@@ -64,7 +64,6 @@ public class Order {
     public String getSelectedticket() {
         return selectedticket;
     }
-
     public void setSelectedticket(String selectedticket) {
         this.selectedticket = selectedticket;
     }
@@ -79,7 +78,6 @@ public class Order {
     public double getPrice() {
         return price;
     }
-
     public void setPrice(double price) {
         this.price = price;
     }
@@ -87,7 +85,6 @@ public class Order {
     public double getTotalprice() {
         return totalprice;
     }
-
     public void setTotalprice(double totalprice) {
         this.totalprice = totalprice;
     }
@@ -95,7 +92,6 @@ public class Order {
     public Account getAccount() {
         return account;
     }
-
     public void setAccount(Account account) {
         this.account = account;
     }
@@ -103,20 +99,30 @@ public class Order {
     public Ticket getTicket() {
         return ticket;
     }
-
     public void setTicket(Ticket ticket) {
         this.ticket = ticket;
     }
 
-
     public List<Ticket> getTickets() {
         return tickets;
     }
-
     public void setTickets(List<Ticket> tickets) {
         this.tickets = tickets;
     }
 
+    public Product getProduct() {
+        return product;
+    }
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
 
     public void addTickets(Ticket tickets) {
         if (this.tickets == null) {

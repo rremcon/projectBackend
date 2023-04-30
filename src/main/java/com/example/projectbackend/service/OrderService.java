@@ -1,7 +1,9 @@
 package com.example.projectbackend.service;
 import com.example.projectbackend.dto.OrderDto;
 import com.example.projectbackend.exceptions.RecordNotFoundException;
+import com.example.projectbackend.model.Account;
 import com.example.projectbackend.model.Order;
+import com.example.projectbackend.repository.AccountRepository;
 import com.example.projectbackend.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,41 +13,33 @@ import java.util.Optional;
 @Service
 public class OrderService {
     private final OrderRepository orderRepos;
-    public OrderService(OrderRepository repos) {
+    private final AccountRepository accountRepository;
+    public OrderService(OrderRepository repos, AccountRepository accountRepository) {
         this.orderRepos = repos;
+        this.accountRepository = accountRepository;
     }
 
-    public Long createOrder(OrderDto orderDto) {
+    public Long createOrder(OrderDto orderDto, Long accountId) {
+
         Order order = new Order();
+        Account account =  accountRepository.getReferenceById(accountId);
         order.setOrderid(orderDto.orderid);
         order.setSelectedticket(orderDto.selectedticket);
         order.setQuantity(orderDto.quantity);
         order.setPrice(orderDto.price);
-        order.setTotalprice(orderDto.totalprice);
+        order.setTotalprice(orderDto.getQuantity() * orderDto.getPrice());
 
+        order.setAccount(account);
         order.setTicket(orderDto.ticket);
 
         Order savedOrder = orderRepos.save(toOrder(orderDto));
-
 //        addTicketToOrder(orderDto, savedOrder);
 
         return savedOrder.getOrderid();
     }
 
-
-//    public OrderDto getOrder(Long id) {
-//        OrderDto orderDto = new OrderDto();
-//        Optional<Order> order = orderRepos.findById(id);
-//        if (order.isPresent()) {
-//            orderDto = fromOrder(order.get());
-//        } else {
-//            throw new RecordNotFoundException();
-//        }
-//        return orderDto;
-//    }
-
-    public OrderDto getOrder(Long id) {
-        Optional<Order> orderr = orderRepos.findById(id);
+    public OrderDto getOrder(Long orderid) {
+        Optional<Order> orderr = orderRepos.findById(orderid);
         if (orderr.isPresent()) {
 
             Order order = orderr.get();
@@ -62,15 +56,6 @@ public class OrderService {
         }
         return null;
     }
-
-
-//    public Long putOrder(OrderDto orderDto) {
-//        Order orderr = new Order(orderDto.selectedticket, orderDto.price, orderDto.quantity);
-//
-//        Order savedOrder = orderRepos.save(orderr);
-//
-//        return savedOrder.getId();
-//    }
 
     public double getAmount(Long id) {
         Optional<Order> orderr = orderRepos.findById(id);
@@ -120,7 +105,6 @@ public class OrderService {
     public void deleteOrder(@RequestBody Long id) {
         orderRepos.deleteById(id);
     }
-
     public static OrderDto fromOrder(Order order){
 
         var orderDto = new OrderDto();
@@ -134,7 +118,6 @@ public class OrderService {
 
         return orderDto;
     }
-
 
     public Order toOrder(OrderDto orderDto) {
 

@@ -1,11 +1,8 @@
 package com.example.projectbackend.dto;
-import com.example.projectbackend.model.Authority;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.util.Set;
 
 public class AccountDto {
 
@@ -22,24 +19,18 @@ public class AccountDto {
     @Email
     public String email;
 
+    @NotBlank
     public String username;
 
     @NotBlank
-    @Size(min=6, max=10)
+    @Size(min=4, max=12)
     public String password;
 
-    //////
-//    public String[] roles;
-
-    @JsonSerialize
-    public Set<Authority> authorities;
-    //////
-
+    public UserDto userDto;
 
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -47,7 +38,6 @@ public class AccountDto {
     public String getFirstname() {
         return firstname;
     }
-
     public void setFirstname(String firstname) {
         this.firstname = firstname;
     }
@@ -55,7 +45,6 @@ public class AccountDto {
     public String getLastname() {
         return lastname;
     }
-
     public void setLastname(String lastname) {
         this.lastname = lastname;
     }
@@ -63,7 +52,6 @@ public class AccountDto {
     public LocalDate getBirthdate() {
         return birthdate;
     }
-
     public void setBirthdate(LocalDate birthdate) {
         this.birthdate = birthdate;
     }
@@ -71,7 +59,6 @@ public class AccountDto {
     public String getAddress() {
         return address;
     }
-
     public void setAddress(String address) {
         this.address = address;
     }
@@ -79,7 +66,6 @@ public class AccountDto {
     public Integer getZipcode() {
         return zipcode;
     }
-
     public void setZipcode(Integer zipcode) {
         this.zipcode = zipcode;
     }
@@ -87,7 +73,6 @@ public class AccountDto {
     public String getCity() {
         return city;
     }
-
     public void setCity(String city) {
         this.city = city;
     }
@@ -95,7 +80,6 @@ public class AccountDto {
     public String getCountry() {
         return country;
     }
-
     public void setCountry(String country) {
         this.country = country;
     }
@@ -103,7 +87,6 @@ public class AccountDto {
     public String getEmail() {
         return email;
     }
-
     public void setEmail(String email) {
         this.email = email;
     }
@@ -111,7 +94,6 @@ public class AccountDto {
     public String getUsername() {
         return username;
     }
-
     public void setUsername(String username) {
         this.username = username;
     }
@@ -119,25 +101,16 @@ public class AccountDto {
     public String getPassword() {
         return password;
     }
-
     public void setPassword(String password) {
         this.password = password;
     }
 
-//    public String[] getRoles() {
-//        return roles;
-//    }
-//
-//    public void setRoles(String[] roles) {
-//        this.roles = roles;
-//    }
-
-    public Set<Authority> getAuthorities() {
-        return authorities;
+    public UserDto getUserDto() {
+        return userDto;
     }
 
-    public void setAuthorities(Set<Authority> authorities) {
-        this.authorities = authorities;
+    public void setUserDto(UserDto userDto) {
+        this.userDto = userDto;
     }
 
 }
