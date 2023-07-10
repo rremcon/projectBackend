@@ -1,8 +1,12 @@
 package com.example.projectbackend.service;
+import com.example.projectbackend.dto.UserOutputDto;
+import com.example.projectbackend.dto.UserAccountDto;
 import com.example.projectbackend.dto.UserDto;
 import com.example.projectbackend.exceptions.UserNotFoundException;
+import com.example.projectbackend.model.Account;
 import com.example.projectbackend.model.Authority;
 import com.example.projectbackend.model.User;
+import com.example.projectbackend.repository.AccountRepository;
 import com.example.projectbackend.repository.UserRepository;
 import com.example.projectbackend.utility.RandomStringGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,43 +23,41 @@ import java.util.Set;
 @Service
 public class UserService {
     private UserRepository userRepository;
+    private AccountRepository accountRepository;
     @Autowired
     @Lazy
     private PasswordEncoder encoder;
-
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, AccountRepository accountRepository) {
         this.userRepository = userRepository;
+        this.accountRepository = accountRepository;
     }
 
-    public String createUser(UserDto userDto) {
+    public String createUser(UserAccountDto userAccountDto) {
         String randomString = RandomStringGenerator.generateAlphaNumeric(20);
-        userDto.setEmail((userDto.getEmail()));
-        userDto.setUsername((userDto.getUsername()));
-        userDto.setPassword(encoder.encode(userDto.getPassword()));
-        userDto.setEnabled(true);
-        userDto.setApikey(randomString);
-        User newUser = userRepository.save(toUser(userDto));
+
+        User user = new User();
+        user.setEmail(userAccountDto.getEmail());
+        user.setUsername(userAccountDto.getUsername());
+        user.setPassword(encoder.encode(userAccountDto.getPassword()));
+
+        Account account = new Account();
+        account.setFirstname(userAccountDto.getFirstname());
+        account.setLastname(userAccountDto.getLastname());
+        account.setAddress(userAccountDto.getAddress());
+        account.setZipcode(userAccountDto.getZipcode());
+        account.setBirthdate(userAccountDto.getBirthdate());
+        account.setCity(userAccountDto.getCity());
+        account.setCountry(userAccountDto.getCountry());
+        account.setEmail(userAccountDto.getEmail());
+        account.setPassword(encoder.encode(userAccountDto.getPassword()));
+        account.setUsername(userAccountDto.getUsername());
+
+        account.setUser(user);
+
+        User newUser = userRepository.save(user);
+        accountRepository.save(account);
         return newUser.getUsername();
     }
-
-//    public String createUser (UserDto userDto)
-//    {
-//        User newUser = new User();
-//        newUser.setUsername(userDto.username);
-//        newUser.setPassword(encoder.encode(userDto.password));
-//
-//        List<Authority> userAuthorities = new ArrayList<>();
-//        for (Authority authority : userDto.authorities) {
-//            Optional<Authority> or = authorityRepository.findById(authority);
-//
-//            userAuthorities.add(or.get());
-//        }
-//        newUser.setAuthorities(userAuthorities);
-//
-//        userRepository.save(newUser);
-//
-//        return "succeed";
-//    }
 
     public UserDto getUser(String username) {
         UserDto userDto;
@@ -69,57 +71,25 @@ public class UserService {
     }
 
 
-//    public Iterable<UserDto> getUsers() {
-//        Iterable<User> allUsers = userRepository.findAll();
-//        ArrayList<UserDto> userDtoList = new ArrayList<>();
-//        for (User user : allUsers) {
-
-//            UserDto userDto = new UserDto();
-//            userDto.username = user.getUsername();
-//            userDto.password = user.getPassword();
-//
-//            userDto.enabled = user.isEnabled();
-//            userDto.apikey = user.getApikey();
-//            userDto.email = user.getEmail();
-//            userDto.authorities = user.getAuthorities();
-//
-//            userDtoList.add(userDto);
-//        }
-//        return userDtoList;
-//    }
-
-    public List<UserDto> getUsers() {
+    public List<UserOutputDto> getUsers() {
         Iterable<User> allUsers = userRepository.findAll();
-        ArrayList<UserDto> userDtoList = new ArrayList<>();
+        ArrayList<UserOutputDto> userDtoList = new ArrayList<>();
 
         for (User user : allUsers) {
-
-//            UserDto userDto = new UserDto();
-//            userDto.username = user.getUsername();
-//            userDto.password = user.getPassword();
-
-            userDtoList.add(fromUser(user));
+            UserOutputDto userOutputDto = new UserOutputDto();
+            userOutputDto.username = user.getUsername();
+            userOutputDto.email = user.getEmail();
+            userDtoList.add(userOutputDto);
         }
         return userDtoList;
     }
-
 
     public void updateUser(String username, UserDto newUser) {
         if (!userRepository.existsById(username)) throw new UserNotFoundException(username);
         User user = userRepository.findById(username).get();
         user.setPassword(encoder.encode(newUser.getPassword()));
-        if (newUser.getEnabled() != null) {
-            user.setEnabled(newUser.getEnabled());
-        }
-        user.setEnabled(newUser.getEnabled());
-        user.setApikey(newUser.getApikey());
         user.setEmail(newUser.getEmail());
         userRepository.save(user);
-    }
-
-
-    public boolean userExists(String username) {
-        return userRepository.existsById(username);
     }
 
     public void deleteUser(@RequestBody String username) {userRepository.deleteById(username);}
@@ -134,7 +104,7 @@ public class UserService {
     public void addUserAuthority(String username, String authority) {
         if (!userRepository.existsById(username)) throw new UsernameNotFoundException(username);
         User user = userRepository.findById(username).get();
-        user.addAuthority(new Authority(username, authority));
+        user.addAuthority(new Authority(authority, username));
         userRepository.save(user);
     }
 
@@ -151,8 +121,6 @@ public class UserService {
         var userDto = new UserDto();
         userDto.username = user.getUsername();
         userDto.password = user.getPassword();
-        userDto.enabled = user.isEnabled();
-        userDto.apikey = user.getApikey();
         userDto.email = user.getEmail();
         userDto.authorities = user.getAuthorities();
 
@@ -164,8 +132,6 @@ public class UserService {
         var user = new User();
         user.setUsername(userDto.getUsername());
         user.setPassword(userDto.getPassword());
-        user.setEnabled(userDto.getEnabled());
-        user.setApikey(userDto.getApikey());
         user.setEmail(userDto.getEmail());
 
         return user;

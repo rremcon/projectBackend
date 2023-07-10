@@ -1,5 +1,4 @@
 package com.example.projectbackend.dto;
-import java.time.LocalDate;
 
 public class TicketDto {
 
@@ -7,15 +6,29 @@ public class TicketDto {
     public String eventname;
     public String tickettype;
     public String daytype;
+
     public String location;
-    public LocalDate eventdate;
+    public String eventdate;
+
     public Double price;
+
+    public TicketDto() {
+    }
+
+    public TicketDto(Long id, String eventname, String tickettype, String daytype, String location, String eventdate, Double price) {
+        this.id = id;
+        this.eventname = eventname;
+        this.tickettype = tickettype;
+        this.daytype = daytype;
+        this.location = location;
+        this.eventdate = eventdate;
+        this.price = price;
+    }
 
 
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -23,7 +36,6 @@ public class TicketDto {
     public String getEventname() {
         return eventname;
     }
-
     public void setEventname(String eventname) {
         this.eventname = eventname;
     }
@@ -31,7 +43,6 @@ public class TicketDto {
     public String getTickettype() {
         return tickettype;
     }
-
     public void setTickettype(String tickettype) {
         this.tickettype = tickettype;
     }
@@ -39,7 +50,6 @@ public class TicketDto {
     public String getDaytype() {
         return daytype;
     }
-
     public void setDaytype(String daytype) {
         this.daytype = daytype;
     }
@@ -47,23 +57,21 @@ public class TicketDto {
     public String getLocation() {
         return location;
     }
-
     public void setLocation(String location) {
         this.location = location;
     }
 
-    public LocalDate getEventdate() {
+    public String getEventdate() {
         return eventdate;
     }
 
-    public void setEventdate(LocalDate eventdate) {
+    public void setEventdate(String eventdate) {
         this.eventdate = eventdate;
     }
 
     public Double getPrice() {
         return price;
     }
-
     public void setPrice(Double price) {
         this.price = price;
     }

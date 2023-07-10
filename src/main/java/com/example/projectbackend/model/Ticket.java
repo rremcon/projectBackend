@@ -5,7 +5,6 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "tickets")
 public class Ticket {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,11 +32,9 @@ public class Ticket {
         this.order = order;
     }
 
-
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -45,7 +42,6 @@ public class Ticket {
     public String getEventname() {
         return eventname;
     }
-
     public void setEventname(String eventname) {
         this.eventname = eventname;
     }
@@ -53,7 +49,6 @@ public class Ticket {
     public String getTickettype() {
         return tickettype;
     }
-
     public void setTickettype(String tickettype) {
         this.tickettype = tickettype;
     }
@@ -61,7 +56,6 @@ public class Ticket {
     public String getDaytype() {
         return daytype;
     }
-
     public void setDaytype(String daytype) {
         this.daytype = daytype;
     }
@@ -69,7 +63,6 @@ public class Ticket {
     public String getLocation() {
         return location;
     }
-
     public void setLocation(String location) {
         this.location = location;
     }
@@ -77,7 +70,6 @@ public class Ticket {
     public LocalDate getEventdate() {
         return eventdate;
     }
-
     public void setEventdate(LocalDate eventdate) {
         this.eventdate = eventdate;
     }
@@ -85,7 +77,6 @@ public class Ticket {
     public Double getPrice() {
         return price;
     }
-
     public void setPrice(Double price) {
         this.price = price;
     }

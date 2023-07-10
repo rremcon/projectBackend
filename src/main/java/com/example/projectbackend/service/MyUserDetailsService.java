@@ -13,7 +13,6 @@ import java.util.Set;
 @Service
 public class MyUserDetailsService implements UserDetailsService {
     private UserService userService;
-
     public MyUserDetailsService(UserService userService) {
         this.userService = userService;
     }
@@ -32,5 +31,6 @@ public class MyUserDetailsService implements UserDetailsService {
 
         return new org.springframework.security.core.userdetails.User(username, password, grantedAuthorities);
     }
+
 
 }

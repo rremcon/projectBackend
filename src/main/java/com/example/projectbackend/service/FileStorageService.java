@@ -12,8 +12,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -67,18 +65,4 @@ public class FileStorageService {
         }
     }
 
-    public List<String> downLoad() {
-        // Directory path here
-        var list = new ArrayList<String>();
-        File folder = new File(fileStorageLocation);
-        File[] listOfFiles = folder.listFiles();
-
-        for(int i = 0; i < Objects.requireNonNull(listOfFiles).length; i++){
-            if(listOfFiles[i].isFile()){
-                String name = listOfFiles[i].getName();
-                list.add(name);
-            }
-        }
-        return list;
-    }
 }

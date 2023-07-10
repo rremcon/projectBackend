@@ -1,107 +1,81 @@
 package com.example.projectbackend.service;
 import com.example.projectbackend.dto.OrderDto;
 import com.example.projectbackend.exceptions.RecordNotFoundException;
-import com.example.projectbackend.model.Order;
-import com.example.projectbackend.repository.OrderRepository;
+import com.example.projectbackend.model.*;
+import com.example.projectbackend.repository.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class OrderService {
     private final OrderRepository orderRepos;
-    public OrderService(OrderRepository repos) {
+    private final AccountRepository accountRepository;
+    private final TicketRepository ticketRepository;
+    private final ProductRepository productRepository;
+    public OrderService(OrderRepository repos, AccountRepository accountRepository, TicketRepository ticketRepository, ProductRepository productRepository) {
         this.orderRepos = repos;
+        this.accountRepository = accountRepository;
+        this.ticketRepository = ticketRepository;
+        this.productRepository = productRepository;
     }
 
-    public Long createOrder(OrderDto orderDto) {
+    public Long createOrder(OrderDto orderDto, Long accountId) {
+
+        Long ticketId = Long.parseLong( orderDto.selecteditem);
+        Long productId = Long.parseLong( orderDto.selecteditem);
+
         Order order = new Order();
-        order.setOrderid(orderDto.orderid);
-        order.setSelectedticket(orderDto.selectedticket);
-        order.setQuantity(orderDto.quantity);
-        order.setPrice(orderDto.price);
-        order.setTotalprice(orderDto.totalprice);
 
-        order.setTicket(orderDto.ticket);
+        Optional <Account> optionalAccount = accountRepository.findById(accountId);
+        Optional <Ticket> optionalTicket = ticketRepository.findById(ticketId);
+        Optional <Product> optionalProduct = productRepository.findById(productId);
 
-        Order savedOrder = orderRepos.save(toOrder(orderDto));
+        order = toOrder(orderDto);
 
-//        addTicketToOrder(orderDto, savedOrder);
+         if(optionalAccount.isPresent()) {
+             order.setAccount(optionalAccount.get());
+         }
 
+        if(optionalTicket.isPresent()) {
+            order.setTicket(optionalTicket.get());
+        }
+
+        if(optionalProduct.isPresent()) {
+            order.setProduct(optionalProduct.get());
+        }
+
+        Order savedOrder = orderRepos.save(order);
         return savedOrder.getOrderid();
     }
 
-
-//    public OrderDto getOrder(Long id) {
-//        OrderDto orderDto = new OrderDto();
-//        Optional<Order> order = orderRepos.findById(id);
-//        if (order.isPresent()) {
-//            orderDto = fromOrder(order.get());
-//        } else {
-//            throw new RecordNotFoundException();
-//        }
-//        return orderDto;
-//    }
-
-    public OrderDto getOrder(Long id) {
-        Optional<Order> orderr = orderRepos.findById(id);
+    public OrderDto getOrder(Long orderid) {
+        Optional<Order> orderr = orderRepos.findById(orderid);
         if (orderr.isPresent()) {
 
             Order order = orderr.get();
             OrderDto orderDto = new OrderDto();
             orderDto.orderid = order.getOrderid();
-            orderDto.selectedticket = order.getSelectedticket();
+            orderDto.selecteditem = order.getSelecteditem();
             orderDto.quantity = order.getQuantity();
             orderDto.price = order.getPrice();
             orderDto.totalprice = order.getTotalprice();
-
-            orderDto.ticket = order.getTicket();
 
             return orderDto;
         }
         return null;
     }
 
-
-//    public Long putOrder(OrderDto orderDto) {
-//        Order orderr = new Order(orderDto.selectedticket, orderDto.price, orderDto.quantity);
-//
-//        Order savedOrder = orderRepos.save(orderr);
-//
-//        return savedOrder.getId();
-//    }
-
-    public double getAmount(Long id) {
-        Optional<Order> orderr = orderRepos.findById(id);
-        if (orderr.isPresent()) {
-            Order order = orderr.get();
-            return order.calculateAmount();
-        }
-        return 0;
-    }
-
-    public Iterable<OrderDto> getOrders() {
-        Iterable<Order> allOrders = orderRepos.findAll();
+    public List<OrderDto> getOrders() {
+        List<Order> allOrders = orderRepos.findAll();
         ArrayList<OrderDto> orderDtoList = new ArrayList<>();
         for (Order order : allOrders) {
 
-            OrderDto orderDto = new OrderDto();
-            orderDto.orderid = order.getOrderid();
-            orderDto.selectedticket = order.getSelectedticket();
-            orderDto.quantity = order.getQuantity();
-            orderDto.price = order.getPrice();
-            orderDto.totalprice = order.getTotalprice();
-
-            orderDto.ticket = order.getTicket();
-
-            orderDtoList.add(orderDto);
+            orderDtoList.add(fromOrder(order));
         }
         return orderDtoList;
-    }
-
-    public Order saveOrder(Order order) {
-        return orderRepos.save(order);
     }
 
     public void updateOrder(Long id, OrderDto newOrder) {
@@ -109,7 +83,7 @@ public class OrderService {
 
         Order order = orderRepos.findById(id).get();
         order.setOrderid(newOrder.getOrderid());
-        order.setSelectedticket(newOrder.getSelectedticket());
+        order.setSelecteditem(newOrder.getSelecteditem());
         order.setQuantity(newOrder.getQuantity());
         order.setPrice(newOrder.getPrice());
         order.setTotalprice(newOrder.getTotalprice());
@@ -120,32 +94,26 @@ public class OrderService {
     public void deleteOrder(@RequestBody Long id) {
         orderRepos.deleteById(id);
     }
-
     public static OrderDto fromOrder(Order order){
 
         var orderDto = new OrderDto();
         orderDto.orderid = order.getOrderid();
-        orderDto.selectedticket = order.getSelectedticket();
+        orderDto.selecteditem = order.getSelecteditem();
         orderDto.quantity = order.getQuantity();
         orderDto.price = order.getPrice();
         orderDto.totalprice = order.getTotalprice();
 
-        orderDto.ticket = order.getTicket();
-
         return orderDto;
     }
-
 
     public Order toOrder(OrderDto orderDto) {
 
         var order = new Order();
         order.setOrderid(orderDto.getOrderid());
-        order.setSelectedticket(orderDto.getSelectedticket());
+        order.setSelecteditem(orderDto.getSelecteditem());
         order.setQuantity(orderDto.getQuantity());
         order.setPrice(orderDto.getPrice());
         order.setTotalprice(orderDto.getTotalprice());
-
-        order.setTicket(orderDto.getTicket());
 
         return order;
     }

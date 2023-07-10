@@ -1,47 +1,49 @@
 
 -- AUTHORITIES
 
-INSERT INTO authorities(username, authority) VALUES ('admin', 'ADMIN');
 INSERT INTO authorities(username, authority) VALUES ('user', 'USER');
+INSERT INTO authorities(username, authority) VALUES ('admin', 'ADMIN');
 
 
 -- USERS
 
-INSERT INTO users(email, username, password, enabled, apikey) VALUES ('mail@1.nl','user1', '$2a$12$v3hpM1z6mh.ITK9UdFeeiOHOaRzvrlLCCGQc9tyZi718XWXWmLub6', 'true', 'VeRXQ5QNGvRRE3GtrLaD');
-INSERT INTO users(email, username, password, enabled, apikey) VALUES ('mail@2.nl','user2', '$2a$12$v3hpM1z6mh.ITK9UdFeeiOHOaRzvrlLCCGQc9tyZi718XWXWmLub6', 'true', 'VeRXQ5QNGvRRE3GtrLaD');
-INSERT INTO users(email, username, password, enabled, apikey) VALUES ('mail@3.nl','user3', '$2a$12$v3hpM1z6mh.ITK9UdFeeiOHOaRzvrlLCCGQc9tyZi718XWXWmLub6', 'true', 'VeRXQ5QNGvRRE3GtrLaD');
+INSERT INTO users(email, username, password) VALUES ('user@mail.nl','user', '$2a$12$a0vsoD.B0vjpG5WRMsDsaebzWcbm6GA5yilMpq/ZXPvC0LxGMNA4O');
+INSERT INTO users(email, username, password) VALUES ('admin@mail.nl','admin', '$2a$12$8Wl3BtwQDUG5itb4rIOi..0votGpXE.9aHRlNjEPe1hD.3GFl18AW');
+INSERT INTO users(email, username, password) VALUES ('h.lang@live.nl','gpfan', '$2a$12$JxlYenffb.Rnitn4laeBk.G/oS81Pu6FayXAMdchcosUFqUIOGbEG');
+INSERT INTO users(email, username, password) VALUES ('janegrey@gmail.com','racefan', '$2a$12$vN/697rfmclh2m4qdwFMU.02BmJ768Bz.LqHVR0PFzJqtC1K7czUC');
+INSERT INTO users(email, username, password) VALUES ('l.hollister@live.com','racingfan', '$2a$12$GXdgulj9lZmu3cyRIzXXJ.m4EpaMzP6GzjrSJRJcUHunMOVUjfR.u');
+INSERT INTO users(email, username, password) VALUES ('mitch.hitch@outlook.com','racingaddict', '$2a$12$Cbfj6z4vt/zSUd7zQYKkDe06PdOC5NJjD20/xas4EJUbTDwMOW2aC');
 
 
 -- ACCOUNTS
 
-INSERT INTO accounts(id, firstname, lastname, birthdate, address, zipcode, city, country, email, username, password) VALUES (75746, 'Hilbert', 'Lang', '15-08-1972', 'Hoekstraat', 64787, 'Utrecht', 'Netherlands', 'h.lang@live.nl', 'gpfan', 'gpfan');
-INSERT INTO accounts(id, firstname, lastname, birthdate, address, zipcode, city, country, email, username, password) VALUES (43569, 'Jane', 'Grey', '08-11-2000', 'Streetlane', 93788, 'Vancouver', 'Canada', 'janegrey@gmail.com', 'racefan', 'racefan');
-INSERT INTO accounts(id, firstname, lastname, birthdate, address, zipcode, city, country, email, username, password) VALUES (98768, 'Luuk', 'Hollister', '17-12-1987', 'Upperstreet', 54978, 'Miami', 'USA', 'l.hollister@live.com', 'racingfan', 'racingfan');
-INSERT INTO accounts(id, firstname, lastname, birthdate, address, zipcode, city, country, email, username, password) VALUES (98879, 'Mitch', 'Hitch', '29-06-1999', 'Streetedge', 66978, 'London', 'UK', 'mitch.hitch@outlook.com', 'racingaddict', 'racingaddict');
-
-
--- USERACCOUNTS
+INSERT INTO accounts(id, firstname, lastname, birthdate, address, zipcode, city, country, email, username, password, user_username) VALUES (75968, 'useruser', 'user', '15-08-1972', 'office', 12345, 'Eindhoven', 'Netherlands', 'user@mail.nl', 'user', '$2a$12$a0vsoD.B0vjpG5WRMsDsaebzWcbm6GA5yilMpq/ZXPvC0LxGMNA4O', 'user');
+INSERT INTO accounts(id, firstname, lastname, birthdate, address, zipcode, city, country, email, username, password, user_username) VALUES (87739, 'adminadmin', 'admin', '15-08-1972', 'office', 12345, 'Eindhoven', 'Netherlands', 'admin@mail.nl', 'admin', '$2a$12$8Wl3BtwQDUG5itb4rIOi..0votGpXE.9aHRlNjEPe1hD.3GFl18AW', 'admin');
+INSERT INTO accounts(id, firstname, lastname, birthdate, address, zipcode, city, country, email, username, password, user_username) VALUES (75746, 'Hilbert', 'Lang', '15-08-1972', 'Hoekstraat', 64787, 'Utrecht', 'Netherlands', 'h.lang@live.nl', 'gpfan', '$2a$12$JxlYenffb.Rnitn4laeBk.G/oS81Pu6FayXAMdchcosUFqUIOGbEG', 'gpfan');
+INSERT INTO accounts(id, firstname, lastname, birthdate, address, zipcode, city, country, email, username, password, user_username) VALUES (43569, 'Jane', 'Grey', '08-11-2000', 'Streetlane', 93788, 'Vancouver', 'Canada', 'janegrey@gmail.com', 'racefan', '$2a$12$vN/697rfmclh2m4qdwFMU.02BmJ768Bz.LqHVR0PFzJqtC1K7czUC', 'racefan');
+INSERT INTO accounts(id, firstname, lastname, birthdate, address, zipcode, city, country, email, username, password, user_username) VALUES (98768, 'Luuk', 'Hollister', '17-12-1987', 'Upperstreet', 54978, 'Miami', 'USA', 'l.hollister@live.com', 'racingfan', '$2a$12$GXdgulj9lZmu3cyRIzXXJ.m4EpaMzP6GzjrSJRJcUHunMOVUjfR.u', 'racingfan');
+INSERT INTO accounts(id, firstname, lastname, birthdate, address, zipcode, city, country, email, username, password, user_username) VALUES (98879, 'Mitch', 'Hitch', '29-06-1999', 'Streetedge', 66978, 'London', 'UK', 'mitch.hitch@outlook.com', 'racingaddict', '$2a$12$Cbfj6z4vt/zSUd7zQYKkDe06PdOC5NJjD20/xas4EJUbTDwMOW2aC', 'racingaddict');
 
 
 -- PRODUCTS
 
-INSERT INTO products(id, img, title, description, price) VALUES (1, 'max_verstappen_cap.jpg', 'Red Bull Cap', 'Flex-Fit Black', 39.95);
-INSERT INTO products(id, img, title, description, price) VALUES (2, 'max_verstappen_t-shirt.jpg', 'Max Verstappen T-Shirt', 'Nr.1 with red-line', 32.50);
-INSERT INTO products(id, img, title, description, price) VALUES (3, 'hoodie_red_bull.jpg', 'Hoodie Red-Bull', 'blue/red', 59.99);
-INSERT INTO products(id, img, title, description, price) VALUES (4, 'polo_red_bull.jpg', 'Polo Red-Bull', 'Basic color dark blue', 25.00);
-INSERT INTO products(id, img, title, description, price) VALUES (5, 'mv_champion_pullover.jpg', 'MV Champion Pullover', 'Dark blue with gold color', 74.99);
-INSERT INTO products(id, img, title, description, price) VALUES (6, 'verstappen_sweatshirt_rb.jpg', 'Verstappen Sweatshirt RB', 'Grey light with dutch flag', 35.95);
-INSERT INTO products(id, img, title, description, price) VALUES (7, 'rb_f1_car_scalemodel.jpg', 'Red Bull F1-Car ScaleModel', 'RB18 Nr.1', 68.99);
-INSERT INTO products(id, img, title, description, price) VALUES (8, 'red_bull_pullover.jpg', 'Red Bull Pullover', 'Basic blue with Red Bull Racing text', 39.95);
-INSERT INTO products(id, img, title, description, price) VALUES (9, 'red_bull_t-shirt.jpg', 'Red Bull T-Shirt', 'Official Red Bull Team t-shirt', 29.95);
+INSERT INTO products(id, img, title, description, price) VALUES (5001, 'http://localhost:8080/download/max_verstappen_cap.jpg', 'Red Bull Cap', 'Flex-Fit Blue', 39.95);
+INSERT INTO products(id, img, title, description, price) VALUES (5002, 'http://localhost:8080/download/max_verstappen_t-shirt.jpg', 'Max Verstappen T-Shirt', 'Nr.1 with red-line', 32.50);
+INSERT INTO products(id, img, title, description, price) VALUES (5003, 'http://localhost:8080/download/hoodie_red_bull.jpg', 'Hoodie Red-Bull', 'blue/red', 59.99);
+INSERT INTO products(id, img, title, description, price) VALUES (5004, 'http://localhost:8080/download/polo_red_bull.jpg', 'Polo Red-Bull', 'Basic color dark blue', 25.00);
+INSERT INTO products(id, img, title, description, price) VALUES (5005, 'http://localhost:8080/download/mv_champion_pullover.jpg', 'MV Champion Pullover', 'Dark blue with gold color', 74.99);
+INSERT INTO products(id, img, title, description, price) VALUES (5006, 'http://localhost:8080/download/verstappen_sweatshirt_rb.jpg', 'Verstappen Sweatshirt RB', 'Grey light with dutch flag', 35.95);
+INSERT INTO products(id, img, title, description, price) VALUES (5007, 'http://localhost:8080/download/rb_f1_car_scalemodel.jpg', 'Red Bull F1-Car ScaleModel', 'RB18 Nr.1', 68.99);
+INSERT INTO products(id, img, title, description, price) VALUES (5008, 'http://localhost:8080/download/red_bull_pullover.jpg', 'Red Bull Pullover', 'Basic blue with Red Bull Racing text', 39.95);
+INSERT INTO products(id, img, title, description, price) VALUES (5009, 'http://localhost:8080/download/red_bull_t-shirt.jpg', 'Red Bull T-Shirt', 'Official Red Bull Team t-shirt', 29.95);
 
 
 -- ORDERS
 
-INSERT INTO orders(orderid, selectedticket, quantity, price, totalprice) VALUES (10001, 9006, 4, 140, 0);
-INSERT INTO orders(orderid, selectedticket, quantity, price, totalprice) VALUES (10002, 6008, 2, 125, 0);
-INSERT INTO orders(orderid, selectedticket, quantity, price, totalprice) VALUES (10003, 8007, 3, 175, 0);
-INSERT INTO orders(orderid, selectedticket, quantity, price, totalprice) VALUES (10004, 7009, 2, 180, 0);
+INSERT INTO orders(orderid, selecteditem, quantity, price, totalprice, account_id, product_id, ticket_id) VALUES (10001, 5006, 1, 35.95, 35.95, 75968, 5006, null);
+INSERT INTO orders(orderid, selecteditem, quantity, price, totalprice, account_id, product_id, ticket_id) VALUES (10002, 5007, 1, 68.99, 68.99, 87739, 5007, null);
+INSERT INTO orders(orderid, selecteditem, quantity, price, totalprice, account_id, product_id, ticket_id) VALUES (10003, 5008, 1, 39.95, 39.95, 75746, 5008, null);
+INSERT INTO orders(orderid, selecteditem, quantity, price, totalprice, account_id, product_id, ticket_id) VALUES (10004, 5009, 1, 29.95, 29.95, 43569, 5009, null);
 
 
 -- TICKETS FORMULA 1

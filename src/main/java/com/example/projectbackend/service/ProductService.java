@@ -28,7 +28,6 @@ public class ProductService {
         return savedProduct.getId();
     }
 
-
     public ProductDto getProduct(Long id) {
         ProductDto productDto = new ProductDto();
         Optional<Product> product = productRepository.findById(id);
@@ -39,7 +38,6 @@ public class ProductService {
         }
         return productDto;
     }
-
 
     public Iterable<ProductDto> getProducts() {
         Iterable<Product> allProducts = productRepository.findAll();
@@ -57,7 +55,6 @@ public class ProductService {
         }
         return productDtoList;
     }
-
 
     public void updateProduct(Long id, ProductDto newProduct) {
         if (!productRepository.existsById(id)) throw new RecordNotFoundException();
@@ -87,7 +84,6 @@ public class ProductService {
         return productDto;
     }
 
-
     public Product toProduct(ProductDto productDto) {
 
         Product product = new Product();
@@ -101,7 +97,3 @@ public class ProductService {
     }
 
 }
-
-
-
-

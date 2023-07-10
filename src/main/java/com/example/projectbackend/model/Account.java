@@ -24,16 +24,9 @@ public class Account {
     @OneToOne
     private User user;
 
-//    @OneToOne
-//    File file;
-
     @OneToMany(mappedBy = "account")
     @JsonIgnore
     private List<Order> orders;
-
-
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    private Collection<Role> roles;
 
     public Account() {
         this.orders = new ArrayList<>();
@@ -56,10 +49,12 @@ public class Account {
         this.orders = orders;
     }
 
+    public Account(long l, String testFirstname, String testLastname, LocalDate now, String testAddress, int i, String testCity, String testCountry, String testMail, String testUsername, String testPassword) {
+    }
+
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -67,7 +62,6 @@ public class Account {
     public String getFirstname() {
         return firstname;
     }
-
     public void setFirstname(String firstname) {
         this.firstname = firstname;
     }
@@ -75,7 +69,6 @@ public class Account {
     public String getLastname() {
         return lastname;
     }
-
     public void setLastname(String lastname) {
         this.lastname = lastname;
     }
@@ -83,7 +76,6 @@ public class Account {
     public LocalDate getBirthdate() {
         return birthdate;
     }
-
     public void setBirthdate(LocalDate birthdate) {
         this.birthdate = birthdate;
     }
@@ -91,7 +83,6 @@ public class Account {
     public String getAddress() {
         return address;
     }
-
     public void setAddress(String address) {
         this.address = address;
     }
@@ -99,7 +90,6 @@ public class Account {
     public Integer getZipcode() {
         return zipcode;
     }
-
     public void setZipcode(Integer zipcode) {
         this.zipcode = zipcode;
     }
@@ -107,7 +97,6 @@ public class Account {
     public String getCity() {
         return city;
     }
-
     public void setCity(String city) {
         this.city = city;
     }
@@ -115,7 +104,6 @@ public class Account {
     public String getCountry() {
         return country;
     }
-
     public void setCountry(String country) {
         this.country = country;
     }
@@ -123,7 +111,6 @@ public class Account {
     public String getEmail() {
         return email;
     }
-
     public void setEmail(String email) {
         this.email = email;
     }
@@ -131,7 +118,6 @@ public class Account {
     public String getUsername() {
         return username;
     }
-
     public void setUsername(String username) {
         this.username = username;
     }
@@ -139,7 +125,6 @@ public class Account {
     public String getPassword() {
         return password;
     }
-
     public void setPassword(String password) {
         this.password = password;
     }
@@ -147,7 +132,6 @@ public class Account {
     public User getUser() {
         return user;
     }
-
     public void setUser(User user) {
         this.user = user;
     }
@@ -155,26 +139,8 @@ public class Account {
     public List<Order> getOrders() {
         return orders;
     }
-
     public void setOrders(List<Order> orders) {
         this.orders = orders;
     }
-
-
-//    public File getFile() {
-//        return file;
-//    }
-//
-//    public void setFile(File file) {
-//        this.file = file;
-//    }
-
-
-    //    public Collection<Role> getRoles() {
-//        return roles;
-//    }
-//    public void setRoles(Collection<Role> roles) {
-//        this.roles = roles;
-//    }
 
 }

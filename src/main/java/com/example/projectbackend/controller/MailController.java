@@ -5,16 +5,13 @@ import com.example.projectbackend.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
 public class MailController {
 
     @Autowired
     private MailRepository mailRepository;
-
     @Autowired
     private MailService emailService;
-
 
     @PostMapping("/sendMail")
     public String
@@ -23,7 +20,6 @@ public class MailController {
         String status = emailService.sendMail(mail);
         return status;
     }
-
 
     @PostMapping("/sendMailWithAttachment")
     public String sendMailWithAttachment(
